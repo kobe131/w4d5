@@ -13,21 +13,22 @@ RSpec.describe UsersController, type: :controller do
   describe 'POST #create' do
     context 'with invalid params' do
       it 'should render new' do
-        post :create, params: { user: { email: "kobe@kobe.com", password: "" } }
+        post :create, params: { user: { username: "kobe@kobe.com", password: "" } }
         expect(flash[:errors]).to be_present 
         expect(response).to render_template('new')
       end
     end
     context 'with valid params' do
       it 'should save and direct to show page' do 
-        post :create, params: { user: { email: "kobe@kobe.com", password: "123456789" } }
-        expect(response).to redirect_to(new_user_url)
+        post :create, params: { user: { username: "kobe@kobe.com", password: "123456789" } }
+        expect(response).to redirect_to user_url(User.last.id)
     end 
     end
   end
   
   describe 'GET #show' do
     it 'renders the show page' do
+      post :show, params: { id: 1 }
       expect(response).to render_template('show')
     end
   end
